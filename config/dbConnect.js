@@ -8,7 +8,7 @@ const connectDB = async () => {
         mongoose.connection.on('connected', () => {
             console.log('DB Connected');
         })
-        await mongoose.connect(`${process.env.DATABASE_URL}/healthLeads`);
+        await mongoose.connect(process.env.DATABASE_URL);
     } catch(err){
         console.error(err.message);
     }

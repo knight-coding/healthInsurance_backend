@@ -1,18 +1,18 @@
 const allowedOrigin = [
   "http://localhost:5173",
-  "https://truleads-frontend.vercel.app",
-  "https://www.truleads.agency"
+  "https://www.truhealthinsurance.com",
 ];
 
 const corsOptions = {
-    origin : (origin, callback) => {
-        if(allowedOrigin.indexOf(origin) !== -1 || !origin ){
-            callback(null, true);
-        } else{
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    optionsSuccessStatus : 200
-}
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigin.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true, // 🔥 THIS IS THE FIX
+  optionsSuccessStatus: 200,
+};
 
 export default corsOptions;

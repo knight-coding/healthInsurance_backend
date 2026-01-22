@@ -33,6 +33,11 @@ const insuranceLeadsSchema  = new mongoose.Schema({
     },
     dateOfBirth: {
         type: Date
+    },
+
+    status:{
+        type: Boolean,
+        default: false
     }
 }, {timestamps: true});
 

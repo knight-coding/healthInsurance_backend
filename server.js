@@ -1,3 +1,4 @@
+import cookieParser from 'cookie-parser';
 import dotenv from "dotenv";
 import cors from "cors";
 import express from "express";
@@ -5,18 +6,24 @@ import router from "./routes/index.js";
 import connectDB from './config/dbConnect.js';
 import corsOptions from './config/corsOptions.js';
 
+// import Employee from "./models/employee.js";
+
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 connectDB();
 
+app.use(cookieParser())
 app.use(cors(corsOptions));
 
 app.use(express.urlencoded({extended : false}));
 app.use(express.json());
 
 app.use(router);
+
+
+
 
 // Start server
 app.listen(PORT, () => {
