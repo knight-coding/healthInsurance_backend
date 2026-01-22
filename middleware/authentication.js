@@ -5,7 +5,7 @@ export const authenticateUser = (req, res, next) => {
     // 1️⃣ Read token from cookies
     const token = req.cookies?.token;
 
-    console.log("Authenticating token:", token);
+    // console.log("Authenticating token:", token);
 
     if (!token) {
       return res.status(401).json({

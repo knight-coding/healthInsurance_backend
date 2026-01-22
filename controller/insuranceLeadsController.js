@@ -86,11 +86,24 @@ export const createInsuranceLead = async (req, res) => {
 ========================= */
 export const getInsuranceLeads = async (req, res) => {
   try {
-    const leads = await InsuranceLeads.find()
-      .sort({ createdAt: -1 }); // latest first
+    const page = parseInt(req.query.page) || 1;   // current page
+    const limit = parseInt(req.query.limit) || 10; // records per page
+    const skip = (page - 1) * limit;
+
+    const [leads, total] = await Promise.all([
+      InsuranceLeads.find()
+        .sort({ createdAt: -1 }) // latest first
+        .skip(skip)
+        .limit(limit),
+      InsuranceLeads.countDocuments()
+    ]);
 
     return res.status(200).json({
       success: true,
+      page,
+      limit,
+      totalRecords: total,
+      totalPages: Math.ceil(total / limit),
       count: leads.length,
       data: leads
     });
@@ -103,6 +116,7 @@ export const getInsuranceLeads = async (req, res) => {
     });
   }
 };
+
 
 /* =========================
    READ SINGLE LEAD BY ID
@@ -157,7 +171,7 @@ export const updateInsuranceLead = async (req, res) => {
 
     const updatedLead = await InsuranceLeads.findByIdAndUpdate(
       id,
-      { $set: { state: req.body.state } },
+      req.body,
       { new: true, runValidators: true, strict: false }
     );
 
